@@ -6,6 +6,7 @@ import Countries from "./components/Countries";
 const App = () => {
   const [countries, setCountries] = useState([]);
   const [filterCriteria, setFilterCriteria] = useState("");
+  const [showCountry, setShowCountry] = useState("");
 
   const hook = () => {
     console.log("effect");
@@ -22,6 +23,12 @@ const App = () => {
   const handleFilterChange = (event) => {
     console.log(event.target.value);
     setFilterCriteria(event.target.value);
+    setShowCountry("");
+  };
+
+  const handleShowCountryChange = (country) => {
+    console.log(`setting country to ${country.name}`);
+    setShowCountry(country);
   };
 
   const filteredCountries =
@@ -38,7 +45,11 @@ const App = () => {
         filterCriteria={filterCriteria}
         handleFilterChange={handleFilterChange}
       />
-      <Countries countries={filteredCountries} />
+      <Countries
+        countries={filteredCountries}
+        showCountry={showCountry}
+        handleShowCountryChange={handleShowCountryChange}
+      />
     </div>
   );
 };

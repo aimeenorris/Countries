@@ -1,7 +1,9 @@
 import React from "react";
 
-const Countries = ({ countries }) => {
-  if (countries.length === 1) {
+const Countries = ({ countries, showCountry, handleShowCountryChange }) => {
+  if (showCountry !== "") {
+    return <div>{<CountryDetail country={showCountry} />}</div>;
+  } else if (countries.length === 1) {
     return <div>{<CountryDetail country={countries[0]} />}</div>;
   } else if (countries.length > 10) {
     return <p>Too many matches, specify another filter</p>;
@@ -9,19 +11,21 @@ const Countries = ({ countries }) => {
   return (
     <div>
       {countries.map((country) => (
-        <Country key={country.name} country={country} />
+        <Country
+          key={country.name}
+          country={country}
+          handleShowCountryChange={handleShowCountryChange}
+        />
       ))}
     </div>
   );
 };
 
-const Country = ({ country }) => {
+const Country = ({ country, handleShowCountryChange }) => {
   return (
     <div>
       <p>{country.name}</p>
-      <button onSubmit={() => <CountryDetail country={country} />}>
-        Details
-      </button>
+      <button onClick={() => handleShowCountryChange(country)}>Show</button>
     </div>
   );
 };

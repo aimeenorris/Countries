@@ -21,7 +21,7 @@ const App = () => {
   console.log("render", countries.length, "countries");
 
   const handleFilterChange = (event) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setFilterCriteria(event.target.value);
     setShowCountry("");
   };

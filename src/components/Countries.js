@@ -40,22 +40,26 @@ const CountryDetail = ({ country }) => {
 
   const hook = () => {
     console.log("effect - countrydetail");
+    const a_key = process.env.REACT_APP_API_KEY.trim();
+    // const key = "85e98202ad98be3d31b41007f5d6c76b";
+
     axios
       .get("http://api.weatherstack.com/current", {
         params: {
-          access_key: "85e98202ad98be3d31b41007f5d6c76b",
+          //access_key: "85e98202ad98be3d31b41007f5d6c76b",
+          access_key: a_key,
           query: country.capital,
         },
       })
-      // .get(
-      //   "http://api.weatherstack.com/current?access_key=85e98202ad98be3d31b41007f5d6c76b&query=%22Raleigh%22"
-      // )
-
       .then((response) => {
-        console.log("promise fulfilled");
+        console.log("weather promise fulfilled");
         setWeather(response.data);
-        setLoading(false);
         console.log(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("something went wrong");
+        console.log(error);
       });
   };
 

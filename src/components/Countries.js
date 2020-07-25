@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+import Weather from "./Weather";
 
 const Countries = ({ countries, showCountry, handleShowCountryChange }) => {
   if (showCountry !== "") {
@@ -35,45 +35,11 @@ const Country = ({ country, handleShowCountryChange }) => {
 };
 
 const CountryDetail = ({ country }) => {
-  const [weather, setWeather] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  const hook = () => {
-    console.log("effect - countrydetail");
-    const a_key = process.env.REACT_APP_API_KEY.trim();
-    // const key = "85e98202ad98be3d31b41007f5d6c76b";
-
-    axios
-      .get("http://api.weatherstack.com/current", {
-        params: {
-          //access_key: "85e98202ad98be3d31b41007f5d6c76b",
-          access_key: a_key,
-          query: country.capital,
-        },
-      })
-      .then((response) => {
-        console.log("weather promise fulfilled");
-        setWeather(response.data);
-        console.log(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("something went wrong");
-        console.log(error);
-      });
-  };
-
-  useEffect(hook, []);
-
-  console.log("render", "weather");
-  if (loading) {
-    return <h2> still loading</h2>;
-  }
   return (
     <div>
       <h2>{country.name}</h2>
-      <p>capital: {country.capital}</p>
-      <p>population: {country.population}</p>
+      <p>Capital: {country.capital}</p>
+      <p>Population: {country.population}</p>
       <h3>Spoken languages: </h3>{" "}
       <ul>
         {country.languages.map((lang) => (
@@ -81,19 +47,9 @@ const CountryDetail = ({ country }) => {
         ))}
       </ul>
       <img src={country.flag} alt="flag" height="100" />
-      <h3>Current Weather in {country.capital}</h3>
-      <p>Temperature: {weather.current.temperature}</p>
-      <img
-        src={weather.current.weather_icons[0]}
-        height="50"
-        width="50"
-        alt="weather icon"
-      />
-      <p>
-        Wind: {weather.current.wind_speed} mph direction{" "}
-        {weather.current.wind_dir}
-      </p>
+      <Weather country={country} />
     </div>
   );
 };
+
 export default Countries;
